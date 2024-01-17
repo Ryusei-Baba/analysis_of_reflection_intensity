@@ -27,6 +27,8 @@ def plot_histogram_and_normal_distribution(file_path, column_number):
 
     # 正規分布をプロット
     xmin, xmax = plt.xlim()
+    # xmin, xmax = plt.xlim(), 16500
+    # xmin, xmax = -1000, 16500  # レンジを0から16500に設定
     x = np.linspace(xmin, xmax, 100)
     p = norm.pdf(x, mu, std)
     plt.plot(x, p, 'k', linewidth=2, color='green', label='Normal Distribution')
@@ -43,4 +45,4 @@ def plot_histogram_and_normal_distribution(file_path, column_number):
     plt.show()
 
 # パスを指定してプロット
-plot_histogram_and_normal_distribution('/home/ryusei/analysis_of_reflection_intensity/data/intensities_data_wall.txt', 0)
+plot_histogram_and_normal_distribution('/home/ryusei/analysis_of_reflection_intensity/data/intensities_data_foyer.txt', 0)
