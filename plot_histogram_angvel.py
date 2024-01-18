@@ -2,9 +2,11 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.stats import norm
 
-def plot_histogram_and_normal_distribution(file_path, column_number):
+def plot_histogram(file_path, column_number):
+    # 新しい図を作成し、横幅を指定
+    # plt.figure(figsize=(10, 5))
+
     # テキストファイルからデータを読み込む
     with open(file_path, 'r') as file:
         # 行ごとにデータを読み込む
@@ -20,22 +22,13 @@ def plot_histogram_and_normal_distribution(file_path, column_number):
     column_data = data[:, column_number]
 
     # ヒストグラムをプロット（density=Trueで正規化）
-    plt.hist(column_data, bins=30, density=True, color='blue', alpha=0.7, label='Histogram')
+    # plt.hist(column_data, bins=20, density=False, color='blue', alpha=0.7, label='Success', range=(-0.55, 0.55))    
+    plt.hist(column_data, bins=20, density=False, color='blue', alpha=0.7, label='Failure', range=(-0.55, 0.55))
 
-    # 正規分布のパラメータを計算
-    mu, std = norm.fit(column_data)
-
-    # 正規分布をプロット
-    xmin, xmax = plt.xlim()
-    # xmin, xmax = plt.xlim(), 16500
-    # xmin, xmax = -1000, 16500  # レンジを0から16500に設定
-    x = np.linspace(xmin, xmax, 100)
-    p = norm.pdf(x, mu, std)
-    plt.plot(x, p, 'k', linewidth=2, color='green', label='Normal Distribution')
 
     # グラフのタイトルと軸ラベルを設定
-    # plt.title('Histogram and Normal Distribution')
-    plt.xlabel('Intensities')
+    # plt.title('Histogram')
+    plt.xlabel('Angular velocity [rad/s]')
     plt.ylabel('Frequency')
 
     # 凡例を表示
@@ -45,4 +38,5 @@ def plot_histogram_and_normal_distribution(file_path, column_number):
     plt.show()
 
 # パスを指定してプロット
-plot_histogram_and_normal_distribution('/home/ryusei/analysis_of_reflection_intensity/data/intensities_data_foyer.txt', 0)
+# plot_histogram('/home/ryusei/analysis_of_reflection_intensity/data/angular_velocity_success.txt', 0)
+plot_histogram('/home/ryusei/analysis_of_reflection_intensity/data/angular_velocity_failure.txt', 0)
