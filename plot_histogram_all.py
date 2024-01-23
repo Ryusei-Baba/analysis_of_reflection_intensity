@@ -13,6 +13,8 @@ def plot_comparing_histograms(file_paths, column_number):
     # 凡例のラベル
     legend_labels = ['The reflection intensity of the wall', 'The reflection intensity of retroreflective tape', 'The reflection intensity of foyer']
 
+    total_counts = []  # 各ヒストグラムの総数を保存するリスト
+
     # ファイルごとにデータを読み込み、プロット
     for i, file_path in enumerate(file_paths):
         with open(file_path, 'r') as file:
@@ -29,14 +31,21 @@ def plot_comparing_histograms(file_paths, column_number):
         column_data = data[:, column_number]
 
         # ヒストグラムをプロット
-        plt.hist(column_data, bins=30, alpha=0.7, color=colors[i], label=f'Histogram - {file_path.split("/")[-1].split(".")[0]}', align='mid')  # alignの値を指定
+        counts, bins, _ = plt.hist(column_data, bins=30, alpha=0.7, color=colors[i], label=f'Histogram - {file_path.split("/")[-1].split(".")[0]}', align='mid', density=True)  # density=Trueで正規化
+
+        total_counts.append(counts.sum())  # 総数をリストに追加
 
     # グラフのタイトルと軸ラベルを設定
     plt.xlabel('Intensities')
-    plt.ylabel('Frequency')
+    plt.ylabel('Frequency (normalized)')
 
     # 凡例を表示（labelsにラベルを渡す）
     plt.legend(labels=legend_labels)
+
+    # 総数を等しくするために各ヒストグラムを調整
+    min_count = min(total_counts)
+    for i in range(len(total_counts)):
+        plt.gca().patches[i].set_height(plt.gca().patches[i].get_height() * min_count / total_counts[i])
 
     # グラフを表示
     plt.show()
